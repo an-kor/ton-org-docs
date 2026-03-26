@@ -95,18 +95,9 @@ import { TonPayWidget } from "@ton-pay/ui-react";
 
 export default function App() {
   return (
-    <main
-      style={{
-        alignItems: "center",
-        display: "grid",
-        margin: "0 auto",
-        maxWidth: 480,
-        minHeight: "100vh",
-        padding: 24,
-      }}
-    >
-      <section style={{ display: "grid", gap: 16, width: "100%" }}>
-        <h1 style={{ margin: 0 }}>TON Pay checkout</h1>
+    <main>
+      <section>
+        <h1>TON Pay checkout</h1>
 
         <TonPayWidget
           amount={12.34}
