@@ -3,114 +3,87 @@ title: "TON Pay SDK overview"
 sidebarTitle: "Overview"
 ---
 
-import { Aside } from '/snippets/aside.jsx';
+import { Aside } from "/snippets/aside.jsx";
 
-TON Pay SDK is a developer toolkit for integrating payment functionality on the TON blockchain. It supports web applications, [Telegram Mini Apps](/ecosystem/tma/overview), backend services, and bots. The SDK provides a unified interface for creating, verifying, and managing payments, abstracting blockchain-specific logic.
+TON Pay SDK is a developer toolkit for integrating checkout and transfer flows on the TON blockchain across React apps, backend services, and Telegram experiences.
 
-<Aside
-  type="caution"
->
+<Aside type="caution">
   TON Pay is not a payment processor.
 </Aside>
 
 <Columns cols={2}>
-  <Card
-    title="For business"
-    icon="credit-card"
-  >
-    Accept TON and jettons as fiat-equivalent funds in the TON wallet, without intermediaries.
+  <Card title="For business" icon="credit-card">
+    Accept TON and jettons as wallet-native payments without traditional intermediaries.
   </Card>
 
-  <Card
-    title="For developers"
-    icon="code"
-  >
-    Integrate payments into web applications, bots, and services using the
-    SDK interface.
+  <Card title="For developers" icon="code">
+    Combine hosted checkout with server-side helpers for transfer creation and status lookups.
   </Card>
 </Columns>
 
 ## Supported wallets
 
-TON Pay SDK is compatible with TON wallets through the [TON Connect protocol](/ecosystem/ton-connect/overview) :
+TON Pay checkout flows integrate with TON wallets through the [TON Connect protocol](/ecosystem/ton-connect/overview):
 
 <CardGroup cols={3}>
-  <Card
-    title="Tonkeeper"
-    icon="mobile"
-  >
-    iOS, Android, web, desktop
-  </Card>
-
-  <Card
-    title="MyTonWallet"
-    icon="laptop"
-  >
-    iOS, Android, desktop
-  </Card>
-
-  <Card
-    title="Tonhub"
-    icon="mobile"
-  >
-    iOS, Android
-  </Card>
-
-  <Card
-    title="OpenMask"
-    icon="globe"
-  >
-    Web extension
-  </Card>
-
-  <Card
-    title="TON Wallet"
-    icon="desktop"
-  >
-    Web, desktop
-  </Card>
-
-  <Card
-    title="Wallet bot"
-    icon="paper-plane"
-  >
-    Telegram
-  </Card>
+  <Card title="Tonkeeper" icon="mobile">iOS, Android, web, desktop</Card>
+  <Card title="MyTonWallet" icon="laptop">iOS, Android, desktop</Card>
+  <Card title="Tonhub" icon="mobile">iOS, Android</Card>
+  <Card title="OpenMask" icon="globe">Web extension</Card>
+  <Card title="TON Wallet" icon="desktop">Web, desktop</Card>
+  <Card title="Wallet bot" icon="paper-plane">Telegram</Card>
 </CardGroup>
 
 ## Features
 
-- Payment creation: one-time transfers, recurring payments, and subscriptions, with
-  customizable reference IDs and memo fields.
-- Transaction tracking: transaction status tracking, confirmation handling, error reporting, and
-  analytics.
-- UI components: React hooks, ready-to-use payment components, and built-in
-  status indicators.
+- Hosted React checkout through `TonPayWidget`
+- Server-side transfer creation and explicit status lookups through `@ton-pay/api`
+- TON and jetton payment flows
+- Built-in on-ramp steps inside the widget when they are available for the current session
 
 ## UI integration
 
-While the SDK provides full programmatic control over payments, built-in UI components reduce integration time.
+The default React integration is `TonPayWidget`.
 
-The `TonPayButton` React component handles wallet connection, transaction signing, loading states, and error notifications out of the box without requiring manual integration with TON Connect hooks or UI state management. It also covers common edge cases such as duplicate submissions, wallet disconnects, and user-visible errors.
+It renders a merchant-facing button and opens a hosted widget that handles:
 
-For most web applications, the UI layer provides a functional checkout flow. The guide on [how to add a TON Pay button using React](/ecosystem/ton-pay/ui-integration/button-react) provides step-by-step instructions.
+- session bootstrap
+- checkout routing
+- wallet logic
+- on-ramp and top-up flows when available
+- success and error callbacks
+
+For most web applications, this is the fastest path to production. See [how to add a TON Pay widget using React](/ecosystem/ton-pay/ui-integration/button-react).
+
+## Server-side integration
+
+Use `@ton-pay/api` when the application needs:
+
+- backend transfer creation
+- explicit status lookups by `reference` or `bodyBase64Hash`
+- MoonPay helper calls outside the hosted widget flow
+
+See [server-side integration](/ecosystem/ton-pay/server-side-integration).
 
 ## How TON Pay works
 
-1. TON Pay backend generates a transaction message.
-1. The user reviews and signs the transaction in the wallet.
-1. The transaction is executed and confirmed on the TON blockchain.
-1. TON Pay backend monitors the transaction status and sends webhook notifications to the application upon completion.
+1. The widget or backend prepares payment context.
+1. The user reviews and confirms the transaction in the wallet flow managed by TON Pay or TON Connect.
+1. The transaction is executed on TON.
+1. TON Pay returns the result through widget callbacks or server-side lookup helpers, depending on the integration path.
 
 ## Security
 
-- Non-custodial: funds always remain under user control.
-- Standard protocols: built on proven TON standards.
-- Transparency: all transactions are verifiable on-chain.
+- Non-custodial: funds remain under user control
+- Standard protocols: built on TON standards and TON Connect
+- Transparent: transactions remain verifiable on-chain
 
 ## Next steps
 
-Install the [SDK](https://www.npmjs.com/package/@ton-pay/api) and configure the development environment.
+- [Quick start](/ecosystem/ton-pay/quick-start)
+- [Add TON Pay widget React](/ecosystem/ton-pay/ui-integration/button-react)
+- [Server-side integration](/ecosystem/ton-pay/server-side-integration)
+- [API reference](/ecosystem/ton-pay/api-reference)
 
 <sub>
   TON Pay SDK is open source software licensed under the Apache License 2.0.
