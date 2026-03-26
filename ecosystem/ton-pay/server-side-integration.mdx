@@ -119,55 +119,6 @@ import { TON, USDT } from "@ton-pay/api";
 
 If the application runs on testnet, pass the correct testnet jetton master address explicitly instead of using mainnet constants such as `USDT`.
 
-## MoonPay helpers
-
-Use the MoonPay helpers when the application needs a server-side on-ramp flow outside the hosted widget.
-
-### Check geo availability
-
-```ts
-import { checkMoonpayGeo } from "@ton-pay/api";
-
-const geo = await checkMoonpayGeo(
-  { ipAddress: "203.0.113.10" },
-  { chain: "mainnet" },
-);
-```
-
-### Check limits
-
-```ts
-import { TON, checkMoonpayLimits } from "@ton-pay/api";
-
-const limits = await checkMoonpayLimits(
-  { asset: TON },
-  { chain: "mainnet" },
-);
-```
-
-### Create a MoonPay transfer
-
-```ts
-import { TON, createMoonpayTransfer } from "@ton-pay/api";
-
-const result = await createMoonpayTransfer(
-  {
-    amount: 50,
-    asset: TON,
-    recipientAddr: "<RECIPIENT_ADDRESS>",
-    redirectURL: "https://merchant.example/checkout/complete",
-    userIp: "203.0.113.10",
-  },
-  {
-    chain: "mainnet",
-  },
-);
-
-console.log(result.link);
-```
-
-`createMoonpayTransfer` returns the MoonPay link together with the resolved geo information and amount limits for the current request.
-
 ## See also
 
 - [Quick start](/ecosystem/ton-pay/quick-start)
