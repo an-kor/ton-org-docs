@@ -4,10 +4,23 @@ sidebarTitle: "Add TON Pay widget JS"
 ---
 
 import { Aside } from "/snippets/aside.jsx";
+import { Image } from "/snippets/image.jsx";
 
-`@ton-pay/ui` is the framework-agnostic hosted widget SDK for plain HTML/JS pages, CMS integrations, and Telegram Mini Apps.
+`@ton-pay/ui` is the framework-agnostic hosted widget SDK for plain HTML/JS pages or non-React integrations.
 
-It renders a TON Pay button when needed and opens the checkout UI in a fullscreen iframe attached to `document.body`, so the widget is not constrained by the host container.
+It renders a TON Pay button when needed and opens the checkout UI in a fullscreen iframe attached to `document.body`.
+
+<div
+  style={{ display: "flex", justifyContent: "center" }}
+>
+  <Image
+    src="/resources/images/ton-pay/button.png"
+    alt="TON Pay button"
+    width={300}
+    noZoom={true}
+  />
+</div>
+
 
 ## Install
 
@@ -91,28 +104,6 @@ Use `createWidget()` when the host application renders its own button or CTA.
     .addEventListener("click", () => widget.open());
 </script>
 ```
-
-## WordPress or CMS example
-
-This is the simplest pattern for a CMS page or a custom HTML block.
-
-```html
-<div id="tonpay-checkout"></div>
-
-<script src="https://unpkg.com/@ton-pay/ui/dist/tonpay-sdk.js"></script>
-<script>
-  window.TonPay.render("#tonpay-checkout", {
-    amount: 19.99,
-    chain: "mainnet",
-    comment: "Order #8451",
-    currency: "TON",
-    itemTitle: "Premium plan",
-    recipientWalletAddress: "<RECIPIENT_WALLET_ADDRESS>"
-  });
-</script>
-```
-
-No extra import map or TON Connect setup is required in the host page. TON Pay owns the hosted checkout flow.
 
 ## API
 

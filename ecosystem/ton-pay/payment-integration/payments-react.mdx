@@ -51,8 +51,6 @@ export function Checkout() {
   onSuccess={(payload) => {
     console.log("action:", payload.action);
     console.log("reference:", payload.reference);
-    console.log("referenceId:", payload.referenceId);
-    console.log("sessionId:", payload.sessionId);
     console.log("txHash:", payload.txHash);
   }}
 />
@@ -83,7 +81,6 @@ Use `@ton-pay/api` only when the application needs flows outside the default wid
 
 - backend transfer creation
 - explicit transfer status lookups by `reference` or `bodyBase64Hash`
-- MoonPay helper calls outside the hosted widget
 
 See [server-side integration](/ecosystem/ton-pay/server-side-integration).
 
@@ -103,8 +100,6 @@ import { TonPayWidget } from "@ton-pay/ui-react";
 
 If you are upgrading from version `0.3.2` or lower:
 
-- replace the explicit base URL prop with `chain`
 - remove `useTonPay`
-- remove manual `sessionUrl` handling
 - remove manual intent builders such as `buildWidgetIntent`
 - move payment parameters into `TonPayWidget` props

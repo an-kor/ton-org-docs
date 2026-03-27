@@ -130,9 +130,6 @@ type WidgetSuccessPayload = {
 import {
   TON,
   USDT,
-  checkMoonpayGeo,
-  checkMoonpayLimits,
-  createMoonpayTransfer,
   createTonPayTransfer,
   getTonPayTransferByBodyHash,
   getTonPayTransferByReference,
@@ -145,23 +142,119 @@ Use `@ton-pay/api` for backend and non-widget flows such as:
 - explicit status lookups by `reference` or `bodyBase64Hash`
 - MoonPay helper calls outside the hosted widget flow
 
+### Functions
+
+#### `createTonPayTransfer(params, options?)`
+
+Build a canonical message and return tracking identifiers.
+
+- `params`: `CreateTonPayTransferParams`.
+- `options`: `APIOptions`.
+- `options.chain`: `mainnet | testnet`.
+
+#### `getTonPayTransferByBodyHash(bodyHash, options?)`
+
+Fetch a transfer by Base64 hash of the signed message body content (payload).
+
+- `bodyHash`: Base64 hash of the signed message body content (payload). Use `bodyBase64Hash` from `createTonPayTransfer`.
+- `options`: `APIOptions`.
+- Return `CompletedTonPayTransferInfo`.
+
+#### `getTonPayTransferByReference(reference, options?)`
+
+Fetch a transfer by reference.
+
+- `reference`: use the `reference` returned by `createTonPayTransfer`.
+- `options`: `APIOptions`.
+- Return `CompletedTonPayTransferInfo`.
+
+### Types: `@ton-pay/api`
+
+### `CreateTonPayTransferParams`
+
+Request payload for `createTonPayTransfer`.
+
+```ts
+type CreateTonPayTransferParams = {
+  amount: number;
+  asset: string;
+  recipientAddr?: string;
+  senderAddr: string;
+  queryId?: number;
+  commentToSender?: string;
+  commentToRecipient?: string;
+};
+```
+
+Specify `amount` in asset units. Follow asset decimals. For example: TON 9 decimals, USDT 6 decimals.
+
+### `CreateTonPayTransferResponse`
+
+```ts
+type CreateTonPayTransferResponse = {
+  message: { address: string; amount: string; payload: string };
+  bodyBase64Hash: string;
+  reference: string;
+};
+```
+
+### `CompletedTonPayTransferInfo`
+
+```ts
+type CompletedTonPayTransferInfo = {
+  amount: string;
+  rawAmount: string;
+  senderAddr: string;
+  recipientAddr: string;
+  asset: string;
+  assetTicker?: string;
+  status: string;
+  reference: string;
+  bodyBase64Hash: string;
+  txHash: string;
+  traceId: string;
+  commentToSender?: string;
+  commentToRecipient?: string;
+  date: string;
+  errorCode?: number;
+  errorMessage?: string;
+};
+```
+
+- `status`: `pending`, `success`, or `error`;
+- `errorCode`: TON Pay error codes in [Check status and retrieve info](/ecosystem/ton-pay/payment-integration/status-info).
+
 ### `APIOptions`
 
 ```ts
 type APIOptions = {
-  chain?: "mainnet" | "testnet";
+  chain: "mainnet" | "testnet";
 };
 ```
 
-### Main helpers
+<Aside type="note">
+  Default: `mainnet`.
+</Aside>
 
-- `createTonPayTransfer(params, options?)`
-- `getTonPayTransferByReference(reference, options?)`
-- `getTonPayTransferByBodyHash(bodyHash, options?)`
-- `createMoonpayTransfer(params, options?)`
-- `checkMoonpayGeo(params, options?)`
-- `checkMoonpayLimits(params, options?)`
+## Constants: `@ton-pay/api`
 
-`TonPayWidget` handles checkout status on the TON Pay side. Use explicit transfer lookups from `@ton-pay/api` for server-side, TON Connect, or other custom flows.
+```ts
+import { TON, USDT } from "@ton-pay/api";
+// TON: the string constant "TON" (use for Toncoin transfers)
+// USDT: mainnet USDT jetton master address
+```
+
+<Aside
+  type="danger"
+  title="Mainnet address risk"
+>
+  Token constants such as `USDT` always reference mainnet jetton master addresses and are not affected by the `chain` option. Using them on testnet may send transactions to mainnet contracts.
+
+  For testnet, explicitly pass the correct testnet jetton master address instead of using token constants.
+</Aside>
+
+## Errors
+
+All API helpers throw `Error` with an HTTP `cause` if the network call fails. For example, `createTonPayTransfer` may throw "Failed to create TON Pay transfer".
 
 See [server-side integration](/ecosystem/ton-pay/server-side-integration) for end-to-end examples.
