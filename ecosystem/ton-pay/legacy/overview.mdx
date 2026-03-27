@@ -22,26 +22,16 @@ based on:
 - `useTonPay`
 - shared backend helpers from `@ton-pay/api`
 
-The backend model did not change. Transfer creation, status lookups, and webhook
-verification still come from `@ton-pay/api`.
-
 ## Legacy architecture
 
 1. The host app configures a [TON Connect manifest](/ecosystem/ton-connect/manifest) and wraps the React tree with `TonConnectUIProvider`.
 1. The backend creates transfers with `createTonPayTransfer()` and stores `reference` and `bodyBase64Hash`.
 1. The frontend calls `pay(createMessage)` from `useTonPay`.
 1. TON Connect opens the wallet and sends the transaction message.
-1. The backend reconciles the result through status lookups or webhooks.
-
-## What is preserved here
-
-- one compact React guide for `0.3.2` and lower
-- migration guidance to the hosted widget flow
-- links to shared backend and webhook documentation
+1. The backend reconciles the result through status lookups.
 
 ## Next steps
 
 - [Legacy React integration guide](/ecosystem/ton-pay/legacy/react-integration)
 - [Server-side integration](/ecosystem/ton-pay/server-side-integration)
-- [Webhooks](/ecosystem/ton-pay/webhooks)
 - [Migration to `TonPayWidget`](/ecosystem/ton-pay/legacy/migration)

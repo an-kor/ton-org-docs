@@ -50,7 +50,6 @@ import { TON, createTonPayTransfer } from "@ton-pay/api";
 
 const options = {
   chain: "testnet",
-  apiKey: "<TONPAY_API_KEY>",
 } as const;
 
 app.post("/api/create-payment", async (req, res) => {
@@ -76,11 +75,6 @@ app.post("/api/create-payment", async (req, res) => {
   res.json({ bodyBase64Hash, message, reference });
 });
 ```
-
-<Aside type="tip">
-  The API key is optional. When configured, it enables dashboard features and
-  signed webhooks.
-</Aside>
 
 ## 3. Send the payment from React
 
@@ -132,7 +126,6 @@ identifiers and confirm the result after the transaction is submitted.
 
 - Persist `reference` and `bodyBase64Hash` before returning the message to the client.
 - Use `getTonPayTransferByReference()` or `getTonPayTransferByBodyHash()` when the UI must poll for completion.
-- Use [webhooks](/ecosystem/ton-pay/webhooks) for backend reconciliation and order updates.
 
 ```ts
 import { getTonPayTransferByReference } from "@ton-pay/api";
@@ -240,5 +233,4 @@ All props are optional except `handlePay`.
 ## See also
 
 - [Server-side integration](/ecosystem/ton-pay/server-side-integration)
-- [Webhooks](/ecosystem/ton-pay/webhooks)
 - [Migration to `TonPayWidget`](/ecosystem/ton-pay/legacy/migration)

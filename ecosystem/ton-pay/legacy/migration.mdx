@@ -41,7 +41,7 @@ The following server-side pieces do not need a redesign just because the React U
 1. Replace `TonPayButton` and `useTonPay` with a single `TonPayWidget`.
 1. Move checkout parameters into widget props such as `amount`, `recipientWalletAddress`, `asset`, `comment`, and `itemTitle`.
 1. Replace legacy client-side success or error handling with `onSuccess`, `onError`, and `onClose` callbacks.
-1. Keep existing server-side lookups and webhook validation for any backend reconciliation or non-widget flows.
+1. Keep existing server-side lookups for any backend reconciliation or non-widget flows.
 1. Validate the hosted flow on testnet before switching to mainnet.
 
 ## Before and after
@@ -116,7 +116,7 @@ export default function Checkout() {
 - Confirm the hosted widget opens and closes correctly on testnet.
 - Confirm `onSuccess` and `onError` handlers receive the expected payloads.
 - Confirm no payment screen still depends on `TonConnectUIProvider`, `useTonPay`, or direct TON Connect send logic.
-- Confirm webhook handling and transfer lookups still work for any remaining backend or custom flows.
+- Confirm transfer lookups still work for any remaining backend or custom flows.
 - Confirm the final production configuration uses the intended `chain`, asset, recipient address, and callback logging.
 
 ## See also

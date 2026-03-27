@@ -108,18 +108,6 @@ type CompletedTonPayTransferInfo = {
 
 Use these lookups for backend reconciliation, TON Connect flows, or custom payment UIs. They are not required for `TonPayWidget` checkout.
 
-## Webhooks
-
-Use webhooks when the backend should receive asynchronous notifications after a
-transfer reaches a final state.
-
-The webhook flow is shared across hosted widget, legacy React, and custom
-integrations because it is implemented by the TON Pay backend and
-`@ton-pay/api`, not by a specific UI package.
-
-See [Webhooks](/ecosystem/ton-pay/webhooks) for payload types, signature
-verification, and validation guidance.
-
 ## Asset constants
 
 ```ts
@@ -135,5 +123,4 @@ If the application runs on testnet, pass the correct testnet jetton master addre
 
 - [Quick start](/ecosystem/ton-pay/quick-start)
 - [Add TON Pay widget React](/ecosystem/ton-pay/ui-integration/button-react)
-- [Webhooks](/ecosystem/ton-pay/webhooks)
 - [API reference](/ecosystem/ton-pay/api-reference)
