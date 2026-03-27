@@ -86,20 +86,8 @@ See [server-side integration](/ecosystem/ton-pay/server-side-integration).
 
 ## Migration from version 0.3.2 or lower
 
-Before:
+The current React payment flow is centered on `TonPayWidget`, not the legacy
+`TonPayButton` + `useTonPay` integration.
 
-```tsx
-import { TonPayButton, useTonPay } from "@ton-pay/ui-react";
-```
-
-After:
-
-```tsx
-import { TonPayWidget } from "@ton-pay/ui-react";
-```
-
-If you are upgrading from version `0.3.2` or lower:
-
-- remove `useTonPay`
-- remove manual intent builders such as `buildWidgetIntent`
-- move payment parameters into `TonPayWidget` props
+- Use the [migration guide](/ecosystem/ton-pay/legacy/migration) for the upgrade checklist and before/after examples.
+- Use the [legacy React integration guide](/ecosystem/ton-pay/legacy/react-integration) only if the application is still pinned to `@ton-pay/ui-react@0.3.2` or lower.

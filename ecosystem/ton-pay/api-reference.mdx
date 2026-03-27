@@ -133,6 +133,10 @@ import {
   createTonPayTransfer,
   getTonPayTransferByBodyHash,
   getTonPayTransferByReference,
+  verifySignature,
+  type TransferCompletedWebhookPayload,
+  type TransferRefundedWebhookPayload,
+  type WebhookPayload,
 } from "@ton-pay/api";
 ```
 
@@ -167,6 +171,15 @@ Fetch a transfer by reference.
 - `reference`: use the `reference` returned by `createTonPayTransfer`.
 - `options`: `APIOptions`.
 - Return `CompletedTonPayTransferInfo`.
+
+#### `verifySignature(payload, signature, apiSecret)`
+
+Verify the `X-TonPay-Signature` header for webhook requests.
+
+- `payload`: raw JSON string or parsed request body object.
+- `signature`: `X-TonPay-Signature` header value.
+- `apiSecret`: webhook secret from the TON Pay dashboard.
+- Return `Promise<boolean>`.
 
 ### Types: `@ton-pay/api`
 
@@ -222,13 +235,13 @@ type CompletedTonPayTransferInfo = {
 ```
 
 - `status`: `pending`, `success`, or `error`;
-- `errorCode`: TON Pay error codes in [Check status and retrieve info](/ecosystem/ton-pay/payment-integration/status-info).
+- `errorCode`: TON Pay error code returned for failed transfers, when available.
 
 ### `APIOptions`
 
 ```ts
 type APIOptions = {
-  chain: "mainnet" | "testnet";
+  chain?: "mainnet" | "testnet";
 };
 ```
 
@@ -252,6 +265,29 @@ import { TON, USDT } from "@ton-pay/api";
 
   For testnet, explicitly pass the correct testnet jetton master address instead of using token constants.
 </Aside>
+
+## Webhook types
+
+```ts
+type TransferCompletedWebhookPayload = {
+  event: "transfer.completed";
+  timestamp: string;
+  data: CompletedTonPayTransferInfo;
+};
+
+type TransferRefundedWebhookPayload = {
+  event: "transfer.refunded";
+  timestamp: string;
+  data: unknown;
+};
+
+type WebhookPayload =
+  | TransferCompletedWebhookPayload
+  | TransferRefundedWebhookPayload;
+```
+
+See [Webhooks](/ecosystem/ton-pay/webhooks) for verification and validation
+examples.
 
 ## Errors
 

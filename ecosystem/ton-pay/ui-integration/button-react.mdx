@@ -115,22 +115,10 @@ With `TonPayWidget`, the host app passes checkout parameters and TON Pay handles
 
 ## Migration from version 0.3.2 or lower
 
-Before:
+`TonPayWidget` replaces the old `TonPayButton` + `useTonPay` React flow.
+The hosted widget owns wallet connection, session bootstrap, checkout routing,
+and result handling, so most legacy TON Connect wiring is removed from the host
+app.
 
-```tsx
-import { TonPayButton, useTonPay } from "@ton-pay/ui-react";
-```
-
-After:
-
-```tsx
-import { TonPayWidget } from "@ton-pay/ui-react";
-```
-
-If you are upgrading from version `0.3.2` or lower:
-
-- replace the explicit base URL prop with `chain`
-- remove `useTonPay`
-- remove manual `sessionUrl` handling
-- remove manual intent builders such as `buildWidgetIntent`
-- move checkout parameters into `TonPayWidget` props
+- Use the [migration guide](/ecosystem/ton-pay/legacy/migration) for the step-by-step upgrade plan.
+- Use the [legacy React integration guide](/ecosystem/ton-pay/legacy/react-integration) only if the application must stay on `@ton-pay/ui-react@0.3.2` or lower.
